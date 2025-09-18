@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0", maximum-scale=1.0, user-scalable=no
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Play City Slots</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
 <style>
@@ -20,8 +20,6 @@ body{
   overflow:hidden;
   position:relative;
 }
-
-/* Canvas de fondo */
 #background-canvas{
   position:fixed;
   top:0;
@@ -30,8 +28,6 @@ body{
   height:100%;
   z-index:0;
 }
-
-/* Títulos */
 .page-title{
   text-align:center;
   margin-top:40px; 
@@ -49,12 +45,10 @@ body{
   font-size:1.7rem;
   color:#f0e68c;
   font-style:italic;
-  margin-top:20px; /* espacio entre los títulos */
-  margin-bottom:60px; /* espacio entre título y máquina */
+  margin-top:20px;
+  margin-bottom:60px;
   text-shadow:0 0 15px rgba(255,215,0,0.5);
 }
-
-/* Máquina */
 .slot-machine-container{
   position:relative;
   width:800px;
@@ -65,7 +59,6 @@ body{
   box-shadow:0 25px 80px rgba(0,0,0,0.9), inset 0 0 40px rgba(255,215,0,0.2);
   text-align:center;
   z-index:2;
-  margin-top:0px; /* margen ajustado desde h2 */
 }
 .machine-title{
   width:100%;
@@ -95,11 +88,12 @@ body{
 .reel{
   width:200px;
   height:220px;
-  background:#111;
+  background:linear-gradient(145deg, #2c2c3e, #141422);
   border-radius:20px;
   overflow:hidden;
   position:relative;
   box-shadow: inset 0 0 25px rgba(255,215,0,0.3),0 5px 15px rgba(0,0,0,0.6);
+  transition: box-shadow 0.5s, border 0.5s;
 }
 .reel-track{
   display:flex;
@@ -116,19 +110,18 @@ body{
 }
 .result{
   margin-top:25px;
-  padding:15px;
+  padding:25px;
   border-radius:20px;
   border:2px solid #FFD700;
   background:rgba(255,215,0,0.05);
   color:#FFD700;
   font-weight:bold;
-  font-size:1.6rem;
-  min-height:60px;
+  font-size:3rem; /* más grande */
+  min-height:120px; /* más alto */
   transition:all 0.5s ease;
   text-align:center;
-  text-shadow:0 0 12px rgba(255,215,0,0.6);
+  text-shadow:0 0 18px rgba(255,215,0,0.8);
 }
-
 /* Palanca */
 .lever-container{
   position:absolute;
@@ -170,14 +163,12 @@ body{
   box-shadow:0 0 35px rgba(255,215,0,0.8);
   transition: transform 0.3s ease;
 }
-.lever-container:active .lever{
+.lever-container.active .lever{
   transform: rotateX(-45deg);
 }
-.lever-container:active .lever-ball{
+.lever-container.active .lever-ball{
   transform: translateZ(50px);
 }
-
-/* Imagen Octopy */
 .corner-text{
   position:fixed;
   bottom:15px;
@@ -188,14 +179,25 @@ body{
   max-width:200px;
   height:auto;
 }
-
-/* Confeti */
 .confetti-piece{
   position:absolute;
   border-radius:50%;
   top:-10px;
   z-index:3;
 }
+.reel.win-glow {
+  border:4px solid gold;
+  animation : glowBlink 0.6s infinite alternate;
+}
+@keyframes glowBlink {
+  0%{
+    box-shadow: 0 0 10 px gold, inset 0 0 10px rgb(255,215,0,0.5);
+    border-color : FFD700;
+  }
+  100% {
+    box-shadow: 0 0 30px gold, inset 0 0 25px rgba(255,215,0,0.9);
+    border-color: #fff6a9
+  }
 </style>
 </head>
 <body>
@@ -209,15 +211,15 @@ body{
 
 <div class="slot-machine-container">
   <div class="machine-title">
-    <img src="https://playcity.click/wp-content/uploads/2024/09/playcity-logo.png" class="machine-logo" alt="Play City">
+    <img src="https://playcitybeneficios.com/img/logo.png" class="machine-logo" alt="Play City">
   </div>
   <div class="reels-wrapper">
-    <div class="reel"><div class="reel-track" id="reel1"></div></div>
-    <div class="reel"><div class="reel-track" id="reel2"></div></div>
-    <div class="reel"><div class="reel-track" id="reel3"></div></div>
+    <div class="reel" id="reelBox1"><div class="reel-track" id="reel1"></div></div>
+    <div class="reel" id="reelBox2"><div class="reel-track" id="reel2"></div></div>
+    <div class="reel" id="reelBox3"><div class="reel-track" id="reel3"></div></div>
   </div>
   <div class="result" id="result">¡Tira la palanca para jugar!</div>
-  <div class="lever-container" onclick="pullLever()">
+  <div class="lever-container">
     <div class="lever-base"></div>
     <div class="lever">
       <div class="lever-ball"></div>
@@ -229,54 +231,45 @@ body{
   <img src="https://octopy.com/wp-content/uploads/2022/09/logo_octopy.svg" alt="Octopy">
 </div>
 
-<!-- AUDIOS -->
 <audio id="spin-sound" src="spin.mp3" preload="auto"></audio>
 <audio id="win-sound" src="celebrar.mp3" preload="auto"></audio>
 <audio id="lose-sound" src="derrota.mp3" preload="auto"></audio>
 
 <script>
-// ======= FONDO =======
-const canvas = document.getElementById('background-canvas');
-const ctx = canvas.getContext('2d');
-let w = canvas.width = window.innerWidth;
-let h = canvas.height = window.innerHeight;
-const lines = [];
+/* Fondo animado */
+const canvas=document.getElementById('background-canvas');
+const ctx=canvas.getContext('2d');
+let w=canvas.width=window.innerWidth;
+let h=canvas.height=window.innerHeight;
+const lines=[];
 for(let i=0;i<50;i++){
-  lines.push({x:Math.random()*w, y:Math.random()*h, speed:0.5+Math.random()*1.5, amplitude:20+Math.random()*40, frequency:0.005+Math.random()*0.01, offset:Math.random()*1000});
+  lines.push({x:Math.random()*w,y:Math.random()*h,speed:0.5+Math.random()*1.5,amplitude:20+Math.random()*40,frequency:0.005+Math.random()*0.01,offset:Math.random()*1000});
 }
 function animateBackground(time){
   ctx.clearRect(0,0,w,h);
   ctx.lineWidth=2;
   lines.forEach(line=>{
-    ctx.strokeStyle = 'rgba(0,191,255,0.2)';
+    ctx.strokeStyle='rgba(0,191,255,0.2)';
     ctx.beginPath();
     for(let x=0;x<w;x+=20){
-      let y = line.y + Math.sin(x*line.frequency + time*0.002 + line.offset)*line.amplitude;
+      let y=line.y+Math.sin(x*line.frequency+time*0.002+line.offset)*line.amplitude;
       if(x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
     }
     ctx.stroke();
-    line.y += line.speed;
+    line.y+=line.speed;
     if(line.y>h+50) line.y=-50;
   });
   requestAnimationFrame(animateBackground);
 }
 animateBackground(0);
-window.addEventListener('resize',()=>{
-  w=canvas.width=window.innerWidth;
-  h=canvas.height=window.innerHeight;
-});
+window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;});
 
-// ======= MÁQUINA =======
-const symbols=[
-  {icon:'🧢'}, {icon:'👕'}, {icon:'🎟️'}, {icon:'🍹'}, {icon:'🎲'}, {icon:'🚙'}
-];
+/* Lógica de la máquina */
+const symbols=[{icon:'🧢'},{icon:'👕'},{icon:'🎟️'},{icon:'🍹'},{icon:'🎲'},{icon:'🚙'}];
 let isSpinning=false;
-const reelsTracks=[
-  document.getElementById('reel1'),
-  document.getElementById('reel2'),
-  document.getElementById('reel3')
-];
-// Inicializar aleatorio
+const reelsTracks=[document.getElementById('reel1'),document.getElementById('reel2'),document.getElementById('reel3')];
+const reelBoxes=[document.getElementById('reelBox1'),document.getElementById('reelBox2'),document.getElementById('reelBox3')];
+
 reelsTracks.forEach(track=>{
   for(let i=0;i<50;i++){
     const div=document.createElement('div');
@@ -289,16 +282,13 @@ reelsTracks.forEach(track=>{
 function pullLever(){
   if(isSpinning) return;
   isSpinning=true;
-  const spinSound = document.getElementById('spin-sound');
+  const spinSound=document.getElementById('spin-sound');
   spinSound.currentTime=0;
   spinSound.play();
-  
   const results=[];
   let completed=0;
-
-  // Determinar premio
-  const prizeChance = Math.random() < 0.35; // 35% premio
-  let prizeSymbol = '';
+  const prizeChance=Math.random()<0.35;
+  let prizeSymbol='';
   if(prizeChance){
     const rnd=Math.random()*100;
     if(rnd<1) prizeSymbol='🚙';
@@ -308,11 +298,9 @@ function pullLever(){
     else if(rnd<34) prizeSymbol='👕';
     else prizeSymbol='🎟️';
   }
-
   reelsTracks.forEach((track,i)=>{
-    const winner = prizeChance ? prizeSymbol : symbols[Math.floor(Math.random()*symbols.length)].icon;
+    const winner=prizeChance?prizeSymbol:symbols[Math.floor(Math.random()*symbols.length)].icon;
     results[i]=winner;
-
     for(let k=0;k<45;k++){
       const div=document.createElement('div');
       div.className='symbol';
@@ -325,7 +313,6 @@ function pullLever(){
       div.textContent=winner;
       track.appendChild(div);
     }
-
     const totalHeight=track.scrollHeight;
     const duration=3200+i*400;
     const start=performance.now();
@@ -347,90 +334,132 @@ function pullLever(){
   });
 }
 
+/* Función showResult modificada */
 function showResult(res){
   const [a,b,c]=res;
   const resultBox=document.getElementById('result');
+  reelBoxes.forEach(rb=>rb.classList.remove("win-glow"));
+
+  const confettiIcons = ['🎉','✨','💥']; // iconos de celebración
+
   if(a===b && b===c){
     let message='';
+    let prizeIcon='';
     switch(a){
-      case '🚙': message='¡Ganaste una camioneta SUV, felicidades! 🎉🚗✨'; break;
-      case '🧢': message='¡Felicidades, a estrenar gorra nueva! 🥳🧢🎊'; break;
-      case '👕': message='¡Felicidades, tienes una playera nueva! 🎉👕✨'; break;
-      case '🍹': message='¡Ganaste una bebida gratis, salud! 🥤🎉'; break;
-      case '🎟️': message='¡15% de descuento en barra, a disfrutar! 🎟️🎉'; break;
-      case '🎲': message='¡Tiro gratis en una ruleta, todo al rojo! 🎲🎉'; break;
+      case '🚙': message='¡Ganaste una camioneta SUV, felicidades!'; prizeIcon='🚙'; break;
+      case '🧢': message='¡Felicidades, a estrenar gorra nueva!'; prizeIcon='🧢'; break;
+      case '👕': message='¡Felicidades, tienes una playera nueva!'; prizeIcon='👕'; break;
+      case '🍹': message='¡Ganaste una bebida gratis, salud!'; prizeIcon='🍹'; break;
+      case '🎟️': message='¡15% de descuento en barra, a disfrutar!'; prizeIcon='🎟️'; break;
+      case '🎲': message='¡Tiro gratis en una ruleta, todo al rojo!'; prizeIcon='🎲'; break;
     }
-    resultBox.textContent=message;
+    let celebration='';
+    for(let i=0;i<3;i++){
+      celebration += confettiIcons[Math.floor(Math.random()*confettiIcons.length)];
+    }
+    resultBox.innerHTML = `${prizeIcon} ${message} ${celebration}`;
     resultBox.style.color='#FFD700';
     playConfetti();
-    playResultSound(true); // SONIDO GANADOR
+    playResultSound(true);
+    reelBoxes.forEach(rb=>rb.classList.add("win-glow"));
+    setTimeout(()=>reelBoxes.forEach(rb=>rb.classList.remove("win-glow")),5000);
   } else if(a===b || b===c || a===c){
-    resultBox.textContent='¡Casi! ¿Te animas de nuevo?';
+    let celebration='';
+    for(let i=0;i<2;i++){
+      celebration += confettiIcons[Math.floor(Math.random()*confettiIcons.length)];
+    }
+    resultBox.innerHTML = `¡Casi! ¿Te animas de nuevo? ${celebration}`;
     resultBox.style.color='#FFA500';
     playResultSound(false);
   } else {
-    resultBox.textContent='¡Buena suerte para la próxima!';
+    let celebration='';
+    for(let i=0;i<2;i++){
+      celebration += confettiIcons[Math.floor(Math.random()*confettiIcons.length)];
+    }
+    resultBox.innerHTML = `¡Buena suerte para la próxima! ${celebration}`;
     resultBox.style.color='#b8860b';
     playResultSound(false);
   }
 }
 
 function playConfetti(){
-  const confettiCount = 500;
+  const confettiCount=500;
   for(let i=0;i<confettiCount;i++){
     const div=document.createElement('div');
     div.className='confetti-piece';
     div.style.left=Math.random()*window.innerWidth+'px';
-    div.style.top = -20 + 'px';
+    div.style.top=-20+'px';
     div.style.background=['#FFD700','#FF4500','#FF69B4','#00BFFF','#ADFF2F'][Math.floor(Math.random()*5)];
-    const size = 5 + Math.random()*12;
-    div.style.width = size+'px';
-    div.style.height = size+'px';
-    div.style.opacity = 0.7 + Math.random()*0.3;
+    const size=5+Math.random()*12;
+    div.style.width=size+'px';
+    div.style.height=size+'px';
+    div.style.opacity=0.7+Math.random()*0.3;
     document.body.appendChild(div);
-
-    const amplitudeX = 50 + Math.random()*150;
-    const speedY = 2 + Math.random()*3;
-    const speedX = 0.01 + Math.random()*0.03;
-    let posX = parseFloat(div.style.left);
-    let posY = parseFloat(div.style.top);
-    let phase = Math.random()*Math.PI*2;
-
+    const amplitudeX=50+Math.random()*150;
+    const speedY=2+Math.random()*3;
+    const speedX=0.01+Math.random()*0.03;
+    let posX=parseFloat(div.style.left);
+    let posY=parseFloat(div.style.top);
+    let phase=Math.random()*Math.PI*2;
     function animateConfetti(){
-      posY += speedY;
-      posX += Math.sin(phase)*amplitudeX*0.01;
-      phase += speedX;
-      div.style.transform = `translate(${posX}px, ${posY}px) rotate(${phase*180/Math.PI}deg)`;
-      if(posY < window.innerHeight + 50){
-        requestAnimationFrame(animateConfetti);
-      } else {
-        div.remove();
-      }
+      posY+=speedY;
+      posX+=Math.sin(phase)*amplitudeX*0.01;
+      phase+=speedX;
+      div.style.transform=`translate(${posX}px, ${posY}px) rotate(${phase*180/Math.PI}deg)`;
+      if(posY<window.innerHeight+50) requestAnimationFrame(animateConfetti);
+      else div.remove();
     }
     requestAnimationFrame(animateConfetti);
   }
 }
-
-// FUNCION SONIDOS RESULTADO
-function playResultSound(isWinner) {
-  const winSound = document.getElementById("win-sound");
-  const loseSound = document.getElementById("lose-sound");
-
-  // Reinicia los sonidos antes de reproducir
-  winSound.pause();
-  loseSound.pause();
-  winSound.currentTime = 0;
-  loseSound.currentTime = 0;
-
-  if (isWinner) {
-    winSound.play();
-  } else {
-    loseSound.play();
-  }
+function playResultSound(isWinner){
+  const winSound=document.getElementById("win-sound");
+  const loseSound=document.getElementById("lose-sound");
+  winSound.pause();loseSound.pause();
+  winSound.currentTime=0;loseSound.currentTime=0;
+  if(isWinner) winSound.play(); else loseSound.play();
 }
+
+/* Palanca: iniciar spin al soltar después de jalar hacia abajo */
+(function enableLeverControl(){
+  const leverElem=document.querySelector('.lever-container');
+  let isDragging=false;
+  let startY=0;
+
+  function getY(e){
+    if(e.touches && e.touches.length) return e.touches[0].clientY;
+    return e.clientY;
+  }
+
+  function onStart(e){
+    if(e.type==="touchstart") e.preventDefault();
+    isDragging=true;
+    startY=getY(e);
+    leverElem.classList.add('active');
+  }
+
+  function onEnd(e){
+    if(!isDragging) return;
+    const endY=getY(e);
+    if(endY-startY>40){ 
+      pullLever();
+    }
+    leverElem.classList.remove('active');
+    isDragging=false;
+  }
+
+  leverElem.addEventListener('mousedown', onStart);
+  window.addEventListener('mouseup', onEnd);
+  leverElem.addEventListener('touchstart', onStart, {passive:false});
+  window.addEventListener('touchend', onEnd);
+})();
 </script>
 </body>
 </html>
+
+
+
+
 
 
 
