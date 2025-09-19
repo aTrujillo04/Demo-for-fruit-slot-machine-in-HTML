@@ -30,13 +30,13 @@ body{
 }
 .page-title{
   text-align:center;
-  margin-top:130px; /* bajé un poco más */
+  margin-top:130px; 
   position:relative;
   z-index:2;
 }
 .page-title h1{
   font-family:'Cinzel Decorative',serif;
-  font-size:4rem; /* más grande */
+  font-size:4rem; 
   color:#FFD700;
   margin:0;
   text-shadow:0 0 25px rgba(255,215,0,0.8);
@@ -49,7 +49,8 @@ body{
     margin-top: 150px;
     margin-bottom: 250px;
     text-shadow: 0 0 15px rgba(255,215,0,0.5);
-    /* Efecto de brillo dorado */
+
+    /* Shine effect in the letters */
     position: relative;
     transition: all 0.3s ease;
 }
@@ -75,7 +76,7 @@ body{
 }
 .slot-machine-container{
   position:relative;
-  width:850px; /* más ancho */
+  width:850px; 
   padding:80px 60px;
   border-radius:70px;
   background: linear-gradient(145deg,#2b2b3c,#1a1a2a);
@@ -83,11 +84,11 @@ body{
   box-shadow:0 35px 100px rgba(0,0,0,0.9), inset 0 0 50px rgba(255,215,0,0.2);
   text-align:center;
   z-index:2;
-  margin-bottom:60px; /* más espacio con el borde inferior */
+  margin-bottom:60px; 
 }
 .machine-title{
   width:100%;
-  height:130px; /* más alto */
+  height:130px; 
   display:flex;
   justify-content:center;
   align-items:center;
@@ -108,7 +109,7 @@ body{
   box-shadow: inset 0 0 50px rgba(255,215,0,0.3),0 10px 30px rgba(0,0,0,0.6);
   position:relative;
   overflow:hidden;
-  height:250px; /* más alto */
+  height:250px; 
 }
 .reel{
   width:200px;
@@ -126,7 +127,7 @@ body{
   transition:transform 0.5s ease-out;
 }
 .symbol{
-  font-size:6rem; /* más grande */
+  font-size:6rem; 
   height:250px;
   width:100%;
   display:flex;
@@ -151,7 +152,7 @@ body{
 .lever-container{
   position:absolute;
   right:-100px;
-  top:100px; /* bajada proporcional */
+  top:100px; 
   width:45px;
   height:250px;
   cursor:pointer;
@@ -256,7 +257,7 @@ body{
 <audio id="lose-sound" src="derrota.mp3" preload="auto"></audio>
 
 <script>
-/* Fondo animado */
+/* Animated wallpaper */
 const canvas=document.getElementById('background-canvas');
 const ctx=canvas.getContext('2d');
 let w=canvas.width=window.innerWidth;
@@ -284,7 +285,7 @@ function animateBackground(time){
 animateBackground(0);
 window.addEventListener('resize',()=>{w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;});
 
-/* Lógica de la máquina */
+/* Machine logic */
 const symbols=[{icon:'🧢'},{icon:'👕'},{icon:'🎟️'},{icon:'🍹'},{icon:'🎲'},{icon:'🚙'}];
 let isSpinning=false;
 const reelsTracks=[document.getElementById('reel1'),document.getElementById('reel2'),document.getElementById('reel3')];
@@ -354,13 +355,13 @@ function pullLever(){
   });
 }
 
-/* Función showResult modificada */
+/* Show results function */
 function showResult(res){
   const [a,b,c]=res;
   const resultBox=document.getElementById('result');
   reelBoxes.forEach(rb=>rb.classList.remove("win-glow"));
 
-  const confettiIcons = ['🎉','✨','💥']; // iconos de celebración
+  const confettiIcons = ['🎉','✨','💥']; // celebration icons
 
   if(a===b && b===c){
     let message='';
@@ -440,7 +441,7 @@ function playResultSound(isWinner){
   if(isWinner) winSound.play(); else loseSound.play();
 }
 
-/* Palanca: iniciar spin al soltar después de jalar hacia abajo */
+/* Pullover logic for spin action */
 (function enableLeverControl(){
   const leverElem=document.querySelector('.lever-container');
   let isDragging=false;
