@@ -51,7 +51,7 @@ body{
 }
 .slot-machine-container{
   position:relative;
-  width:1000px; /* más ancho */
+  width:750px; /* más ancho */
   padding:60px 50px;
   border-radius:50px;
   background: linear-gradient(145deg,#2b2b3c,#1a1a2a);
@@ -84,11 +84,11 @@ body{
   box-shadow: inset 0 0 50px rgba(255,215,0,0.3),0 10px 30px rgba(0,0,0,0.6);
   position:relative;
   overflow:hidden;
-  height:300px; /* más alto */
+  height:250px; /* más alto */
 }
 .reel{
-  width:260px;
-  height:300px;
+  width:200px;
+  height:250px;
   background:linear-gradient(145deg, #2c2c3e, #141422);
   border-radius:25px;
   overflow:hidden;
@@ -102,8 +102,8 @@ body{
   transition:transform 0.5s ease-out;
 }
 .symbol{
-  font-size:5.5rem; /* más grande */
-  height:300px;
+  font-size:4rem; /* más grande */
+  height:250px;
   width:100%;
   display:flex;
   justify-content:center;
@@ -127,9 +127,9 @@ body{
 .lever-container{
   position:absolute;
   right:-160px;
-  top:200px; /* bajada proporcional */
+  top:100px; /* bajada proporcional */
   width:45px;
-  height:300px;
+  height:250px;
   cursor:pointer;
   perspective:900px;
   z-index:2;
@@ -154,8 +154,8 @@ body{
   transition: transform 0.3s ease;
 }
 .lever-ball{
-  width:80px;
-  height:80px;
+  width:60px;
+  height:60px;
   background:radial-gradient(circle,#FFD700,#b8860b);
   border-radius:50%;
   position:absolute;
@@ -316,7 +316,7 @@ function pullLever(){
       let progress=(time-start)/duration;
       if(progress>1) progress=1;
       const ease=1-Math.pow(1-progress,5);
-      track.style.transform=`translateY(-${ease*(totalHeight-300)}px)`;
+      track.style.transform=`translateY(-${ease*(totalHeight-250)}px)`;
       if(progress<1) requestAnimationFrame(animate);
       else{
         completed++;
@@ -452,6 +452,21 @@ function playResultSound(isWinner){
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
