@@ -40,13 +40,14 @@ body{
   color:#FFD700;
   margin:0;
   text-shadow:0 0 25px rgba(255,215,0,0.8);
+  margin-bottom: 150;
 }
 .page-title h2 {
     font-size: 3rem;
     color: #f0e68c;
     font-style: italic;
-    margin-top: 35px;
-    margin-bottom: 350px;
+    margin-top: 150px;
+    margin-bottom: 250px;
     text-shadow: 0 0 15px rgba(255,215,0,0.5);
     /* Efecto de brillo dorado */
     position: relative;
@@ -74,8 +75,8 @@ body{
 }
 .slot-machine-container{
   position:relative;
-  width:900px; /* más ancho */
-  padding:90px 70px;
+  width:850px; /* más ancho */
+  padding:80px 60px;
   border-radius:70px;
   background: linear-gradient(145deg,#2b2b3c,#1a1a2a);
   border:12px solid #FFD700;
@@ -149,7 +150,7 @@ body{
 /* Palanca */
 .lever-container{
   position:absolute;
-  right:-140px;
+  right:-100px;
   top:100px; /* bajada proporcional */
   width:45px;
   height:250px;
@@ -370,7 +371,7 @@ function showResult(res){
       case '👕': message='¡Felicidades, tienes una playera nueva!'; prizeIcon='👕'; break;
       case '🍹': message='¡Ganaste una bebida gratis, salud!'; prizeIcon='🍹'; break;
       case '🎟️': message='¡15% de descuento en barra, a disfrutar!'; prizeIcon='🎟️'; break;
-      case '🎲': message='¡Tiro gratis en una ruleta, todo al rojoo!'; prizeIcon='🎲'; break;
+      case '🎲': message='¡Tiro gratis en una ruleta, todo al rojo!'; prizeIcon='🎲'; break;
     }
     let celebration='';
     for(let i=0;i<3;i++){
@@ -395,7 +396,7 @@ function showResult(res){
     for(let i=0;i<2;i++){
       celebration += confettiIcons[Math.floor(Math.random()*confettiIcons.length)];
     }
-    resultBox.innerHTML = `¡Buena suerte para la próxima! ${celebration}`;
+    resultBox.innerHTML = `¿En serio te vas sin ganar? ${celebration}`;
     resultBox.style.color='#b8860b';
     playResultSound(false);
   }
@@ -475,6 +476,8 @@ function playResultSound(isWinner){
 </script>
 </body>
 </html>
+
+
 
 
 
