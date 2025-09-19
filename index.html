@@ -334,12 +334,12 @@ function pullLever(){
       track.appendChild(div);
     }
     const totalHeight=track.scrollHeight;
-    const duration=3200+i*400;
+    const duration=4500+i*400;
     const start=performance.now();
     function animate(time){
       let progress=(time-start)/duration;
       if(progress>1) progress=1;
-      const ease=1-Math.pow(1-progress,5);
+      const ease=1-Math.pow(1-progress,2);
       track.style.transform=`translateY(-${ease*(totalHeight-250)}px)`;
       if(progress<1) requestAnimationFrame(animate);
       else{
