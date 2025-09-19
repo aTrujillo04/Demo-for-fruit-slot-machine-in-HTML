@@ -12,7 +12,7 @@ body{
   font-family:'Georgia',serif;
   display:flex;
   flex-direction:column;
-  justify-content:center;
+  justify-content:flex-start;
   align-items:center;
   min-height:100vh;
   background: radial-gradient(circle at top, #1a1a2e, #0d0d1a);
@@ -30,7 +30,7 @@ body{
 }
 .page-title{
   text-align:center;
-  margin-top:120px; /* bajé un poco más */
+  margin-top:130px; /* bajé un poco más */
   position:relative;
   z-index:2;
 }
@@ -41,17 +41,40 @@ body{
   margin:0;
   text-shadow:0 0 25px rgba(255,215,0,0.8);
 }
-.page-title h2{
-  font-size:2.2rem; /* más grande */
-  color:#f0e68c;
-  font-style:italic;
-  margin-top:35px;
-  margin-bottom:1200px; /* más espacio antes de la máquina */
-  text-shadow:0 0 15px rgba(255,215,0,0.5);
+.page-title h2 {
+    font-size: 3rem;
+    color: #f0e68c;
+    font-style: italic;
+    margin-top: 35px;
+    margin-bottom: 300px;
+    text-shadow: 0 0 15px rgba(255,215,0,0.5);
+    /* Efecto de brillo dorado */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.page-title h2::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,215,0,0.8) 50%, transparent 100%);
+    background-size: 200% 100%;
+    animation: shine 2s linear infinite;
+    z-index: -1;
+    opacity: 0.8;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
 }
 .slot-machine-container{
   position:relative;
-  width:720px; /* más ancho */
+  width:800px; /* más ancho */
   padding:70px 60px;
   border-radius:50px;
   background: linear-gradient(145deg,#2b2b3c,#1a1a2a);
@@ -102,7 +125,7 @@ body{
   transition:transform 0.5s ease-out;
 }
 .symbol{
-  font-size:4rem; /* más grande */
+  font-size:5rem; /* más grande */
   height:250px;
   width:100%;
   display:flex;
@@ -126,8 +149,8 @@ body{
 /* Palanca */
 .lever-container{
   position:absolute;
-  right:-180px;
-  top:140px; /* bajada proporcional */
+  right:-160px;
+  top:100px; /* bajada proporcional */
   width:45px;
   height:250px;
   cursor:pointer;
@@ -201,8 +224,8 @@ body{
 <canvas id="background-canvas"></canvas>
 
 <div class="page-title">
-  <h1>¡Bienvenido a Play City!</h1>
-  <h2>¡Descubre tu suerte!</h2>
+  <h1>¡Bienvenido a Play City Casino!</h1>
+  <h2>¿Tienes buena suerte? ¡Baja la palanca y descubrelo!</h2>
 </div>
 
 <div class="slot-machine-container">
