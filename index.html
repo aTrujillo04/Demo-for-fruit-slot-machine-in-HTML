@@ -30,46 +30,47 @@ body{
 }
 .page-title{
   text-align:center;
-  margin-top:40px; 
+  margin-top:60px; /* bajé un poco más */
   position:relative;
   z-index:2;
 }
 .page-title h1{
   font-family:'Cinzel Decorative',serif;
-  font-size:3rem;
+  font-size:4rem; /* más grande */
   color:#FFD700;
   margin:0;
   text-shadow:0 0 25px rgba(255,215,0,0.8);
 }
 .page-title h2{
-  font-size:1.7rem;
+  font-size:2.2rem; /* más grande */
   color:#f0e68c;
   font-style:italic;
-  margin-top:20px;
-  margin-bottom:60px;
+  margin-top:25px;
+  margin-bottom:90px; /* más espacio antes de la máquina */
   text-shadow:0 0 15px rgba(255,215,0,0.5);
 }
 .slot-machine-container{
   position:relative;
-  width:800px;
-  padding:40px 30px;
-  border-radius:40px;
+  width:1000px; /* más ancho */
+  padding:60px 50px;
+  border-radius:50px;
   background: linear-gradient(145deg,#2b2b3c,#1a1a2a);
-  border:10px solid #FFD700;
-  box-shadow:0 25px 80px rgba(0,0,0,0.9), inset 0 0 40px rgba(255,215,0,0.2);
+  border:12px solid #FFD700;
+  box-shadow:0 35px 100px rgba(0,0,0,0.9), inset 0 0 50px rgba(255,215,0,0.2);
   text-align:center;
   z-index:2;
+  margin-bottom:40px; /* más espacio con el borde inferior */
 }
 .machine-title{
   width:100%;
-  height:100px;
+  height:130px; /* más alto */
   display:flex;
   justify-content:center;
   align-items:center;
-  margin-bottom:20px;
+  margin-bottom:30px;
 }
 .machine-logo{
-  max-width:80%;
+  max-width:85%;
   max-height:100%;
   object-fit:contain;
 }
@@ -77,22 +78,22 @@ body{
   display:flex;
   justify-content:space-around;
   background:linear-gradient(to bottom,#3c3c4c,#1a1a2a);
-  border:6px solid #FFD700;
-  border-radius:25px;
-  padding:25px;
-  box-shadow: inset 0 0 40px rgba(255,215,0,0.3),0 8px 25px rgba(0,0,0,0.6);
+  border:8px solid #FFD700;
+  border-radius:30px;
+  padding:35px;
+  box-shadow: inset 0 0 50px rgba(255,215,0,0.3),0 10px 30px rgba(0,0,0,0.6);
   position:relative;
   overflow:hidden;
-  height:220px;
+  height:300px; /* más alto */
 }
 .reel{
-  width:200px;
-  height:220px;
+  width:260px;
+  height:300px;
   background:linear-gradient(145deg, #2c2c3e, #141422);
-  border-radius:20px;
+  border-radius:25px;
   overflow:hidden;
   position:relative;
-  box-shadow: inset 0 0 25px rgba(255,215,0,0.3),0 5px 15px rgba(0,0,0,0.6);
+  box-shadow: inset 0 0 30px rgba(255,215,0,0.3),0 7px 20px rgba(0,0,0,0.6);
   transition: box-shadow 0.5s, border 0.5s;
 }
 .reel-track{
@@ -101,23 +102,23 @@ body{
   transition:transform 0.5s ease-out;
 }
 .symbol{
-  font-size:4.2rem;
-  height:220px;
+  font-size:5.5rem; /* más grande */
+  height:300px;
   width:100%;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 .result{
-  margin-top:25px;
-  padding:25px;
-  border-radius:20px;
-  border:2px solid #FFD700;
+  margin-top:35px;
+  padding:35px;
+  border-radius:25px;
+  border:3px solid #FFD700;
   background:rgba(255,215,0,0.05);
   color:#FFD700;
   font-weight:bold;
-  font-size:3rem; /* más grande */
-  min-height:120px; /* más alto */
+  font-size:3.5rem; 
+  min-height:150px;
   transition:all 0.5s ease;
   text-align:center;
   text-shadow:0 0 18px rgba(255,215,0,0.8);
@@ -125,58 +126,58 @@ body{
 /* Palanca */
 .lever-container{
   position:absolute;
-  right:-120px;
-  top:140px;
-  width:35px;
-  height:220px;
+  right:-160px;
+  top:200px; /* bajada proporcional */
+  width:45px;
+  height:300px;
   cursor:pointer;
-  perspective:800px;
+  perspective:900px;
   z-index:2;
 }
 .lever-base{
   width:100%;
-  height:40px;
+  height:50px;
   background:#b8860b;
-  border-radius:20px;
+  border-radius:25px;
   position:absolute;
   bottom:0;
 }
 .lever{
-  width:35px;
-  height:220px;
+  width:45px;
+  height:300px;
   background:linear-gradient(to bottom,#FFD700,#b8860b);
-  border-radius:20px;
+  border-radius:25px;
   position:absolute;
-  bottom:40px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.6), inset 0 0 8px rgba(255,215,0,0.3);
+  bottom:50px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.6), inset 0 0 10px rgba(255,215,0,0.3);
   transform-origin:bottom center;
   transition: transform 0.3s ease;
 }
 .lever-ball{
-  width:60px;
-  height:60px;
+  width:80px;
+  height:80px;
   background:radial-gradient(circle,#FFD700,#b8860b);
   border-radius:50%;
   position:absolute;
-  top:-60px;
-  left:-13px;
-  box-shadow:0 0 35px rgba(255,215,0,0.8);
+  top:-80px;
+  left:-18px;
+  box-shadow:0 0 45px rgba(255,215,0,0.8);
   transition: transform 0.3s ease;
 }
 .lever-container.active .lever{
   transform: rotateX(-45deg);
 }
 .lever-container.active .lever-ball{
-  transform: translateZ(50px);
+  transform: translateZ(60px);
 }
 .corner-text{
   position:fixed;
-  bottom:15px;
-  right:20px;
+  bottom:20px;
+  right:25px;
   z-index:2;
 }
 .corner-text img{
-  max-width:200px;
+  max-width:250px;
   height:auto;
 }
 .confetti-piece{
@@ -190,14 +191,9 @@ body{
   animation : glowBlink 0.6s infinite alternate;
 }
 @keyframes glowBlink {
-  0%{
-    box-shadow: 0 0 10 px gold, inset 0 0 10px rgb(255,215,0,0.5);
-    border-color : FFD700;
-  }
-  100% {
-    box-shadow: 0 0 30px gold, inset 0 0 25px rgba(255,215,0,0.9);
-    border-color: #fff6a9
-  }
+  0%{ box-shadow:0 0 10px gold, inset 0 0 10px rgba(255,215,0,0.5); border-color:#FFD700; }
+  100%{ box-shadow:0 0 35px gold, inset 0 0 25px rgba(255,215,0,0.9); border-color:#fff6a9; }
+}
 </style>
 </head>
 <body>
@@ -320,7 +316,7 @@ function pullLever(){
       let progress=(time-start)/duration;
       if(progress>1) progress=1;
       const ease=1-Math.pow(1-progress,5);
-      track.style.transform=`translateY(-${ease*(totalHeight-220)}px)`;
+      track.style.transform=`translateY(-${ease*(totalHeight-300)}px)`;
       if(progress<1) requestAnimationFrame(animate);
       else{
         completed++;
